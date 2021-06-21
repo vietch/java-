@@ -1,0 +1,66 @@
+package com.tjl.bean;
+
+public class User {
+    private int id;
+    private String unmae;
+    private String upass;
+    private int type;
+    public User(){
+        super();
+    }
+    public User(String unmae,String upass){
+        super();
+        this.unmae = unmae;
+        this.upass = upass;
+    }
+    public User(String unmae,String upass,int type){
+        super();
+        this.unmae = unmae;
+        this.upass = upass;
+        this.type = type;
+    }
+    public User(int id,String unmae,String upass,int type){
+        super();
+        this.id = id;
+        this.unmae = unmae;
+        this.upass = upass;
+        this.type = type;
+    }
+
+
+
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+    public String getUnmae(){
+        return unmae;
+    }
+    public void setUnmae(String unmae){
+        this.unmae = unmae;
+    }
+    public String getUpass(){
+        return upass;
+    }
+    public void setUpass(String upass){
+        this.upass = upass;
+    }
+    public int getType(){
+        return type;
+    }
+    public void setType(int type){
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", unmae='" + unmae + '\'' +
+                ", upass='" + upass + '\'' +
+                ", type=" + type +
+                '}';
+    }
+}
