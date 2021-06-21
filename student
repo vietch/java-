@@ -1,0 +1,109 @@
+package com.tjl.bean;
+
+
+import java.util.Date;
+
+public class Student {
+    String sname;
+    String ssex;
+    String snumber;
+    Date sdate;
+    int schinese;
+    int smath;
+    int senglish;
+
+    public Student(String sname, String ssex, Date sdate, int schinese, int smath, int senglish) {
+        this.sname = sname;
+        this.ssex = ssex;
+        this.sdate = sdate;
+        this.schinese = schinese;
+        this.smath = smath;
+        this.senglish = senglish;
+    }
+
+    public Student(String sname, String ssex, String snumber, Date sdate, int schinese, int smath, int senglish) {
+        this.sname = sname;
+        this.ssex = ssex;
+        this.snumber = snumber;
+        this.sdate = sdate;
+        this.schinese = schinese;
+        this.smath = smath;
+        this.senglish = senglish;
+    }
+
+
+
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "sname='" + sname + '\'' +
+                ", ssex='" + ssex + '\'' +
+                ", snumber='" + snumber + '\'' +
+                ", sdate=" + sdate +
+                ", schinese=" + schinese +
+                ", smath=" + smath +
+                ", senglish=" + senglish +
+                '}';
+    }
+
+    public Student() {
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getSsex() {
+        return ssex;
+    }
+
+    public void setSsex(String ssex) {
+        this.ssex = ssex;
+    }
+
+    public String getSnumber() {
+        return snumber;
+    }
+
+    public void setSnumber(String snumber) {
+        this.snumber = snumber;
+    }
+
+    public Date getSdate() {
+        return sdate;
+    }
+
+    public void setSdate(Date sdate) {
+        this.sdate = sdate;
+    }
+
+    public int getSchinese() {
+        return schinese;
+    }
+
+    public void setSchinese(int schinese) {
+        this.schinese = schinese;
+    }
+
+    public int getSmath() {
+        return smath;
+    }
+
+    public void setSmath(int smath) {
+        this.smath = smath;
+    }
+
+    public int getSenglish() {
+        return senglish;
+    }
+
+    public void setSenglish(int senglish) {
+        this.senglish = senglish;
+    }
+
+}
