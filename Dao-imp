@@ -1,0 +1,200 @@
+package com.tjl.dao;
+
+import com.tjl.bean.Student;
+import com.tjl.bean.User;
+import com.tjl.jdbc.JDBCUtiles;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class UserDao_Imp implements UserDao {
+    private static final String SQL_USER_LOGIN = "SELECT type from user WHERE uname=? AND upass=?";
+    private static final String SQL_USER_INSET = "INSERT INTO `student` VALUES(sid,?,?,?,?,?,?,?)";
+    private static final String SQL_USER_DELETE = "DELETE FROM `student` WHERE snumber=?";
+    private static final String SQL_USER_UPDATE = "UPDATE `student` SET sname=?,ssex=?,sdate=?,schinese=?,smath=?,senglish=? WHERE snumber=?";
+    private static final String SQL_USER_SELECT = "SELECT * FROM `student` WHERE snumber=?";
+
+
+
+    @Override
+    public int login(User user) {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            //创建预编译环境
+            preparedStatement = conn.prepareStatement(SQL_USER_LOGIN);
+            //设置sql语句中的参数
+            preparedStatement.setString(1, user.getUnmae());
+            preparedStatement.setString(2, user.getUpass());
+            //执行语句
+            result = preparedStatement.executeQuery();
+            while (result.next()) {
+                //用结果集查询当前用户权限
+                int type = result.getInt("type");
+                return type;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, result);
+        }
+        //创建执行环境 statement
+
+        //执行sql语句 Query,得到结果集对象result
+        return -1;
+    }
+
+    @Override
+    public boolean insert(Student student) {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        //创建预编译环境
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = conn.prepareStatement(SQL_USER_INSET);
+            System.out.println(preparedStatement);
+            //设置sql语句中的参数
+            preparedStatement.setString(1, student.getSname());
+            preparedStatement.setString(2, student.getSnumber());
+            preparedStatement.setString(3, student.getSsex());
+            preparedStatement.setDate(4, (java.sql.Date) student.getSdate());
+            preparedStatement.setInt(5, student.getSchinese());
+            preparedStatement.setInt(6, student.getSmath());
+            preparedStatement.setInt(7, student.getSenglish());
+            System.out.println(preparedStatement);
+            int line = preparedStatement.executeUpdate();
+            return line > 0 ? true : false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, null);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete(String num) {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        //创建预编译环境
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = conn.prepareStatement(SQL_USER_DELETE);
+            //设置sql语句中的参数
+            preparedStatement.setString(1, num);
+            int line = preparedStatement.executeUpdate();
+            //          if (line>0){
+            //              return true;
+            //         }
+            return line > 0 ? true : false;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, null);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean update(Student student) {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        //创建预编译环境
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = conn.prepareStatement(SQL_USER_UPDATE);
+            //设置sql语句中的参数
+            preparedStatement.setString(1, student.getSname());
+            preparedStatement.setString(2, student.getSsex());
+            preparedStatement.setDate(3, (java.sql.Date) student.getSdate());
+            preparedStatement.setInt(4, student.getSchinese());
+            preparedStatement.setInt(5, student.getSmath());
+            preparedStatement.setInt(6, student.getSenglish());
+            preparedStatement.setString(7, student.getSnumber());
+
+            System.out.println(preparedStatement);
+            int line = preparedStatement.executeUpdate();
+            //          if (line>0){
+            //              return true;
+            //         }
+            return line > 0 ? true : false;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, null);
+        }
+
+        return false;
+    }
+
+    @Override
+    public Student select(String num) {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        //创建预编译环境
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = conn.prepareStatement(SQL_USER_SELECT);
+            //设置sql语句中的参数
+            preparedStatement.setString(1, num);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                String sname = result.getString("sname");
+                String ssex = result.getString("ssex");
+                Date sdate = result.getDate("sdate");
+                int schinese = result.getInt("schinese");
+                int smath = result.getInt("smath");
+                int senglish = result.getInt("senglish");
+
+                return new Student(sname, ssex, sdate, schinese, smath, senglish);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, null);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Student> select_all() {
+        //连接数据库，创建连接对象conn
+        Connection conn = JDBCUtiles.getConnection();
+        //创建预编译环境
+        PreparedStatement preparedStatement = null;
+        try {
+
+            preparedStatement = conn.prepareStatement("select * from student");
+            ResultSet result = preparedStatement.executeQuery();
+            List<Student> list=new ArrayList<>();
+            while (result.next()){
+                Student stu=new Student();
+                stu.setSnumber(result.getString("snumber"));
+                stu.setSchinese(result.getInt("schinese"));
+                stu.setSenglish(result.getInt("senglish"));
+                stu.setSmath(result.getInt("smath"));
+                System.out.println(stu);
+                list.add(stu);
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtiles.close(conn, preparedStatement, null);
+        }
+        return null;
+    }
+
+}
